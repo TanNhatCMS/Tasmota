@@ -459,6 +459,9 @@
 // -- MQTT - Tasmota Discovery ---------------------
 #define USE_TASMOTA_DISCOVERY                      // Enable Tasmota Discovery support (+2k code)
 
+// -- MQTT - ThingsBoard IoT ------------------------
+//#define USE_MQTT_THINGSBOARD_IOT                   // Enable ThingsBoard IoT support (+1k code)
+
 // -- MQTT - TLS - AWS IoT ------------------------
 // Using TLS starting with version v6.5.0.16 compilation will only work using Core 2.4.2 and 2.5.2. No longer supported: 2.3.0
 //#define USE_MQTT_TLS                             // Use TLS for MQTT connection (+34.5k code, +7.0k mem and +4.8k additional during connection handshake)
