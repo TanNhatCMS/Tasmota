@@ -135,122 +135,122 @@ jobs:
           name: ${{ matrix.variant }}
           path: ./build_output
 
-  base-images:
-    needs: push_solidified
-    runs-on: ubuntu-latest
-    if: github.repository == 'TanNhatCMS/Tasmota'
-    continue-on-error: true
-    strategy:
-      matrix:
-        variant:
-          - tasmota
-          - tasmota-4M
-          - tasmota-minimal
-          - tasmota-display
-          - tasmota-ir
-          - tasmota-knx
-          - tasmota-lite
-          - tasmota-sensors
-          - tasmota-zbbridge
-          - tasmota-zigbee
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: development
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          version: "latest"
-          enable-cache: false
-      - name: Install dependencies
-        run: |
-          uv pip install --system platformio
-      - name: Add SHA to footer
-        run: |
-          COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
-          SHA=${COMMIT_SHA_LONG::7}
-          sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
-      - name: Run PlatformIO
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: '1'
-        run: platformio run -e ${{ matrix.variant }}
-      - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}
-          path: ./build_output
+  # base-images:
+  #   needs: push_solidified
+  #   runs-on: ubuntu-latest
+  #   if: github.repository == 'TanNhatCMS/Tasmota'
+  #   continue-on-error: true
+  #   strategy:
+  #     matrix:
+  #       variant:
+  #         - tasmota
+  #         - tasmota-4M
+  #         - tasmota-minimal
+  #         - tasmota-display
+  #         - tasmota-ir
+  #         - tasmota-knx
+  #         - tasmota-lite
+  #         - tasmota-sensors
+  #         - tasmota-zbbridge
+  #         - tasmota-zigbee
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: development
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.13'
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@v6
+  #       with:
+  #         version: "latest"
+  #         enable-cache: false
+  #     - name: Install dependencies
+  #       run: |
+  #         uv pip install --system platformio
+  #     - name: Add SHA to footer
+  #       run: |
+  #         COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
+  #         SHA=${COMMIT_SHA_LONG::7}
+  #         sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
+  #     - name: Run PlatformIO
+  #       env:
+  #         PYTHONIOENCODING: utf-8
+  #         PYTHONUTF8: '1'
+  #       run: platformio run -e ${{ matrix.variant }}
+  #     - name: Upload firmware artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: ${{ matrix.variant }}
+  #         path: ./build_output
 
-  base32-images:
-    needs: safeboot-images
-    runs-on: ubuntu-latest
-    if: github.repository == 'TanNhatCMS/Tasmota'
-    continue-on-error: true
-    strategy:
-      matrix:
-        variant:
-          - tasmota32
-          - tasmota32-zbbrdgpro
-          - tasmota32-webcam
-          - tasmota32-bluetooth
-          - tasmota32-nspanel
-          - tasmota32-display
-          - tasmota32-ir
-          - tasmota32-lvgl
-          - tasmota32c2
-          - tasmota32c3
-          - tasmota32c5
-          - tasmota32c6
-          - tasmota32p4
-          - tasmota32s2
-          - tasmota32s2cdc
-          - tasmota32s3
-          - tasmota32solo1
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: development
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          version: "latest"
-          enable-cache: false
-      - name: Install dependencies
-        run: |
-          uv pip install --system platformio
-          cp ./platformio_override_sample.ini ./platformio_override.ini
-      - name: Download safeboot firmwares
-        uses: actions/download-artifact@v4
-        with:
-          pattern: tasmota32*
-          path: ./temp
-      - name: Move safeboot files
-        run: |
-          mkdir -p ./firmware/firmware
-          find ./temp -type f -exec cp -t ./firmware/firmware {} +
-      - name: Add SHA to footer
-        run: |
-          COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
-          SHA=${COMMIT_SHA_LONG::7}
-          sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
-      - name: Run PlatformIO
-        env:
-          PYTHONIOENCODING: utf-8
-          PYTHONUTF8: '1'
-        run: platformio run -e ${{ matrix.variant }}
-      - name: Upload firmware artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.variant }}
-          path: ./build_output
+  # base32-images:
+  #   needs: safeboot-images
+  #   runs-on: ubuntu-latest
+  #   if: github.repository == 'TanNhatCMS/Tasmota'
+  #   continue-on-error: true
+  #   strategy:
+  #     matrix:
+  #       variant:
+  #         - tasmota32
+  #         - tasmota32-zbbrdgpro
+  #         - tasmota32-webcam
+  #         - tasmota32-bluetooth
+  #         - tasmota32-nspanel
+  #         - tasmota32-display
+  #         - tasmota32-ir
+  #         - tasmota32-lvgl
+  #         - tasmota32c2
+  #         - tasmota32c3
+  #         - tasmota32c5
+  #         - tasmota32c6
+  #         - tasmota32p4
+  #         - tasmota32s2
+  #         - tasmota32s2cdc
+  #         - tasmota32s3
+  #         - tasmota32solo1
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: development
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.13'
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@v6
+  #       with:
+  #         version: "latest"
+  #         enable-cache: false
+  #     - name: Install dependencies
+  #       run: |
+  #         uv pip install --system platformio
+  #         cp ./platformio_override_sample.ini ./platformio_override.ini
+  #     - name: Download safeboot firmwares
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         pattern: tasmota32*
+  #         path: ./temp
+  #     - name: Move safeboot files
+  #       run: |
+  #         mkdir -p ./firmware/firmware
+  #         find ./temp -type f -exec cp -t ./firmware/firmware {} +
+  #     - name: Add SHA to footer
+  #       run: |
+  #         COMMIT_SHA_LONG=$(git rev-parse --short HEAD || echo "")
+  #         SHA=${COMMIT_SHA_LONG::7}
+  #         sed -i -e "s/TASMOTA_SHA_SHORT/TASMOTA_SHA_SHORT $SHA-/g" ./tasmota/include/tasmota_version.h
+  #     - name: Run PlatformIO
+  #       env:
+  #         PYTHONIOENCODING: utf-8
+  #         PYTHONUTF8: '1'
+  #       run: platformio run -e ${{ matrix.variant }}
+  #     - name: Upload firmware artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: ${{ matrix.variant }}
+  #         path: ./build_output
 
   thingsboard-images:
     needs: safeboot-images
