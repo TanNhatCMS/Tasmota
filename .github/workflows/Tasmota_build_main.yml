@@ -1,4 +1,4 @@
-name: Build_development
+name: Build ThingsBoards
 
 on:
   workflow_dispatch:      # Start a workflow
