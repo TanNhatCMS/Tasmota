@@ -88,7 +88,10 @@ Examples :
 */
 
 
-
+#ifdef APP_TIMEZONE
+#undef APP_TIMEZONE
+#endif
+#define APP_TIMEZONE           7
 
 
 #endif  // _USER_CONFIG_OVERRIDE_H_
