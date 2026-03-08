@@ -287,15 +287,15 @@ jobs:
           uv pip install --system platformio
           cp ./platformio_override_sample.ini ./platformio_override.ini
           cp ./platformio_tasmota_cenv_thingsboard.ini ./platformio_tasmota_cenv.ini
-      - name: Select user config override
-        run: |
-          if [ "${{ matrix.variant }}" = "tasmota32s3psram-thingsboard-lite" ]; then
-            echo "Using lite config"
-            cp ./tasmota/user_config_override_lite.h ./tasmota/user_config_override.h
-          else
-            echo "Using full config"
-            cp ./tasmota/user_config_override_full.h ./tasmota/user_config_override.h
-          fi
+      # - name: Select user config override
+      #   run: |
+      #     if [ "${{ matrix.variant }}" = "tasmota32s3psram-thingsboard-lite" ]; then
+      #       echo "Using lite config"
+      #       cp ./tasmota/user_config_override_lite.h ./tasmota/user_config_override.h
+      #     else
+      #       echo "Using full config"
+      #       cp ./tasmota/user_config_override_full.h ./tasmota/user_config_override.h
+      #     fi
       - name: Download safeboot firmwares
         uses: actions/download-artifact@v4
         with:
